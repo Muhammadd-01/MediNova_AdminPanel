@@ -1,19 +1,19 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ThreeBackground } from "./components/three-background"
-import { Sidebar } from "./components/sidebar"
-import { Navbar } from "./components/navbar"
-import { Dashboard } from "./components/dashboard"
-import { UsersPage } from "./components/users-page"
-import { HospitalsPage } from "./components/hospitals-page"
-import { EmergenciesPage } from "./components/emergencies-page"
-import { AddHospitalForm } from "./components/add-hospital-form"
-import { ProfilePage } from "./components/profile-page"
-import { LoginPage } from "./components/login-page"
-import { AdminManagement } from "./components/admin-management"
-import { SystemSettings } from "./components/system-settings"
-import { ReportsPage } from "./components/reports-page"
+import ThreeBackground from "./components/ThreeBackground"
+import Sidebar from "./components/Sidebar"
+import Navbar from "./components/Navbar"
+import Dashboard from "./components/Dashboard"
+import UsersPage from "./components/UsersPage"
+import HospitalsPage from "./components/HospitalsPage"
+import EmergenciesPage from "./components/EmergenciesPage"
+import AddHospitalForm from "./components/AddHospitalForm"
+import ProfilePage from "./components/ProfilePage"
+import LoginPage from "./components/LoginPage"
+import AdminManagement from "./components/AdminManagement"
+import SystemSettings from "./components/SystemSettings"
+import ReportsPage from "./components/ReportsPage"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -39,8 +39,8 @@ export default function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false)
-    setCurrentPage("dashboard") // Reset to dashboard when logging out
-    setSidebarOpen(false) // Close sidebar on logout
+    setCurrentPage("dashboard")
+    setSidebarOpen(false)
   }
 
   const handleMenuToggle = () => {
