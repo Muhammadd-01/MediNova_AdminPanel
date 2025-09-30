@@ -8,47 +8,12 @@ export default function UsersPage() {
   const [filterRole, setFilterRole] = useState("all")
 
   const users = [
-    {
-      id: 1,
-      name: "Dr. Sarah Johnson",
-      email: "sarah.johnson@medicare.com",
-      role: "Doctor",
-      status: "Active",
-      lastLogin: "2 hours ago",
-    },
-    {
-      id: 2,
-      name: "John Smith",
-      email: "john.smith@gmail.com",
-      role: "Patient",
-      status: "Active",
-      lastLogin: "1 day ago",
-    },
-    {
-      id: 3,
-      name: "Dr. Michael Brown",
-      email: "michael.brown@medicare.com",
-      role: "Doctor",
-      status: "Inactive",
-      lastLogin: "1 week ago",
-    },
-    {
-      id: 4,
-      name: "Emily Davis",
-      email: "emily.davis@gmail.com",
-      role: "Patient",
-      status: "Active",
-      lastLogin: "3 hours ago",
-    },
+    { id: 1, name: "Dr. Sarah Johnson", email: "sarah.johnson@medicare.com", role: "Doctor", status: "Active", lastLogin: "2 hours ago" },
+    { id: 2, name: "John Smith", email: "john.smith@gmail.com", role: "Patient", status: "Active", lastLogin: "1 day ago" },
+    { id: 3, name: "Dr. Michael Brown", email: "michael.brown@medicare.com", role: "Doctor", status: "Inactive", lastLogin: "1 week ago" },
+    { id: 4, name: "Emily Davis", email: "emily.davis@gmail.com", role: "Patient", status: "Active", lastLogin: "3 hours ago" },
     { id: 5, name: "Admin User", email: "admin@medicare.com", role: "Admin", status: "Active", lastLogin: "Online" },
-    {
-      id: 6,
-      name: "Dr. Lisa Wilson",
-      email: "lisa.wilson@medicare.com",
-      role: "Doctor",
-      status: "Active",
-      lastLogin: "5 hours ago",
-    },
+    { id: 6, name: "Dr. Lisa Wilson", email: "lisa.wilson@medicare.com", role: "Doctor", status: "Active", lastLogin: "5 hours ago" },
   ]
 
   const filteredUsers = users.filter((user) => {
@@ -75,7 +40,7 @@ export default function UsersPage() {
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="w-full bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40 shadow-md"
           />
         </div>
         <div className="relative">
@@ -83,29 +48,21 @@ export default function UsersPage() {
           <select
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
-            className="bg-white/10 border border-white/20 rounded-lg pl-10 pr-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 appearance-none cursor-pointer"
+            className="bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl pl-10 pr-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/40 appearance-none cursor-pointer shadow-md"
           >
-            <option value="all" className="bg-black text-white">
-              All Roles
-            </option>
-            <option value="doctor" className="bg-black text-white">
-              Doctor
-            </option>
-            <option value="patient" className="bg-black text-white">
-              Patient
-            </option>
-            <option value="admin" className="bg-black text-white">
-              Admin
-            </option>
+            <option value="all" className="bg-black text-white">All Roles</option>
+            <option value="doctor" className="bg-black text-white">Doctor</option>
+            <option value="patient" className="bg-black text-white">Patient</option>
+            <option value="admin" className="bg-black text-white">Admin</option>
           </select>
         </div>
       </div>
 
       {/* Users Table */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-white/5">
+            <thead className="bg-white/10">
               <tr>
                 <th className="text-left py-4 px-6 text-white font-semibold">User</th>
                 <th className="text-left py-4 px-6 text-white font-semibold">Role</th>
@@ -116,7 +73,10 @@ export default function UsersPage() {
             </thead>
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
+                <tr
+                  key={user.id}
+                  className="border-t border-white/10 hover:bg-white/10 transition-all rounded-xl"
+                >
                   <td className="py-4 px-6">
                     <div>
                       <p className="text-white font-medium">{user.name}</p>
@@ -129,8 +89,8 @@ export default function UsersPage() {
                         user.role === "Doctor"
                           ? "bg-blue-500/20 text-blue-400"
                           : user.role === "Patient"
-                            ? "bg-green-500/20 text-green-400"
-                            : "bg-purple-500/20 text-purple-400"
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-purple-500/20 text-purple-400"
                       }`}
                     >
                       {user.role}
@@ -139,7 +99,9 @@ export default function UsersPage() {
                   <td className="py-4 px-6">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        user.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
+                        user.status === "Active"
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-red-500/20 text-red-400"
                       }`}
                     >
                       {user.status}
@@ -148,13 +110,13 @@ export default function UsersPage() {
                   <td className="py-4 px-6 text-white/70">{user.lastLogin}</td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all">
+                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95">
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/10 rounded-lg transition-all">
+                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95">
                         <Edit className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-lg transition-all">
+                      <button className="p-2 text-white/70 hover:text-red-400 hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -169,11 +131,11 @@ export default function UsersPage() {
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/10">
           <p className="text-white/60 text-sm">Showing 1-6 of {filteredUsers.length} users</p>
           <div className="flex items-center space-x-2">
-            <button className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all">
+            <button className="p-2 text-white/70 hover:text-white hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95">
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <button className="px-3 py-1 bg-white/10 text-white rounded-lg">1</button>
-            <button className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all">
+            <button className="px-3 py-1 bg-white/20 text-white rounded-xl font-semibold shadow-md">1</button>
+            <button className="p-2 text-white/70 hover:text-white hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

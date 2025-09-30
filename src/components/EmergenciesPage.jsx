@@ -96,9 +96,9 @@ export default function EmergenciesPage() {
 
       {/* Emergency Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="backdrop-blur-md border border-white/10 rounded-2xl p-4 bg-white/5">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-red-500/20 rounded-lg">
+            <div className="p-2 bg-red-500/20 rounded-full">
               <AlertTriangle className="w-5 h-5 text-red-400" />
             </div>
             <div>
@@ -107,9 +107,9 @@ export default function EmergenciesPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="backdrop-blur-md border border-white/10 rounded-2xl p-4 bg-white/5">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-orange-500/20 rounded-lg">
+            <div className="p-2 bg-orange-500/20 rounded-full">
               <AlertTriangle className="w-5 h-5 text-orange-400" />
             </div>
             <div>
@@ -118,9 +118,9 @@ export default function EmergenciesPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="backdrop-blur-md border border-white/10 rounded-2xl p-4 bg-white/5">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/20 rounded-lg">
+            <div className="p-2 bg-blue-500/20 rounded-full">
               <Clock className="w-5 h-5 text-blue-400" />
             </div>
             <div>
@@ -129,9 +129,9 @@ export default function EmergenciesPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="backdrop-blur-md border border-white/10 rounded-2xl p-4 bg-white/5">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/20 rounded-lg">
+            <div className="p-2 bg-green-500/20 rounded-full">
               <AlertTriangle className="w-5 h-5 text-green-400" />
             </div>
             <div>
@@ -143,10 +143,10 @@ export default function EmergenciesPage() {
       </div>
 
       {/* Emergency Reports Table */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
+      <div className="backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden bg-white/5">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-white/5">
+            <thead className="bg-white/10">
               <tr>
                 <th className="text-left py-4 px-6 text-white font-semibold">Report ID</th>
                 <th className="text-left py-4 px-6 text-white font-semibold">Patient</th>
@@ -159,17 +159,11 @@ export default function EmergenciesPage() {
             </thead>
             <tbody>
               {emergencies.map((emergency) => (
-                <tr key={emergency.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
+                <tr key={emergency.id} className="border-t border-white/10 hover:bg-white/10 transition-colors">
+                  <td className="py-4 px-6 text-white font-mono">{emergency.id}</td>
+                  <td className="py-4 px-6 text-white font-medium">{emergency.patient}</td>
                   <td className="py-4 px-6">
-                    <span className="text-white font-mono">{emergency.id}</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <p className="text-white font-medium">{emergency.patient}</p>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getSeverityColor(emergency.severity)}`}
-                    >
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getSeverityColor(emergency.severity)}`}>
                       {emergency.severity}
                     </span>
                   </td>
@@ -193,7 +187,7 @@ export default function EmergenciesPage() {
                   <td className="py-4 px-6">
                     <button
                       onClick={() => setSelectedEmergency(emergency)}
-                      className="flex items-center space-x-2 px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-all"
+                      className="flex items-center space-x-2 px-3 py-2 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 transition-all"
                     >
                       <Eye className="w-4 h-4" />
                       <span className="text-sm">View</span>
@@ -208,13 +202,13 @@ export default function EmergenciesPage() {
 
       {/* Emergency Details Modal */}
       {selectedEmergency && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#023e8a] border border-white/20 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <div className="bg-[#023e8a]/95 border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">Emergency Details - {selectedEmergency.id}</h2>
               <button
                 onClick={() => setSelectedEmergency(null)}
-                className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -224,46 +218,32 @@ export default function EmergenciesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-3">Patient Information</h3>
-                  <div className="space-y-2">
-                    <p className="text-white/70">
-                      <span className="text-white">Name:</span> {selectedEmergency.patient}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Report ID:</span> {selectedEmergency.id}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Time:</span> {selectedEmergency.time}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Location:</span> {selectedEmergency.location}
-                    </p>
+                  <div className="space-y-2 text-white/70">
+                    <p><span className="text-white">Name:</span> {selectedEmergency.patient}</p>
+                    <p><span className="text-white">Report ID:</span> {selectedEmergency.id}</p>
+                    <p><span className="text-white">Time:</span> {selectedEmergency.time}</p>
+                    <p><span className="text-white">Location:</span> {selectedEmergency.location}</p>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-3">Vital Signs</h3>
-                  <div className="space-y-2">
-                    <p className="text-white/70">
-                      <span className="text-white">Heart Rate:</span> {selectedEmergency.vitals.heartRate} BPM
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Blood Pressure:</span> {selectedEmergency.vitals.bloodPressure}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Oxygen Level:</span> {selectedEmergency.vitals.oxygen}
-                    </p>
+                  <div className="space-y-2 text-white/70">
+                    <p><span className="text-white">Heart Rate:</span> {selectedEmergency.vitals.heartRate} BPM</p>
+                    <p><span className="text-white">Blood Pressure:</span> {selectedEmergency.vitals.bloodPressure}</p>
+                    <p><span className="text-white">Oxygen Level:</span> {selectedEmergency.vitals.oxygen}</p>
                   </div>
                 </div>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
-                <p className="text-white/70 bg-white/5 p-4 rounded-lg">{selectedEmergency.description}</p>
+                <p className="text-white/70 bg-white/10 p-4 rounded-xl">{selectedEmergency.description}</p>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Location Map</h3>
-                <div className="h-48 bg-white/5 rounded-lg flex items-center justify-center">
+                <div className="h-48 bg-white/10 rounded-xl flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="w-8 h-8 text-blue-400 mx-auto mb-2" />
                     <p className="text-white/60">Interactive Map View</p>
@@ -275,13 +255,13 @@ export default function EmergenciesPage() {
             <div className="flex space-x-3 mt-6">
               <button
                 onClick={() => updateEmergencyStatus(selectedEmergency.id, "In Progress")}
-                className="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 py-2 px-4 rounded-lg transition-all"
+                className="flex-1 py-2 px-4 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 transition-all"
               >
                 Mark In Progress
               </button>
               <button
                 onClick={() => updateEmergencyStatus(selectedEmergency.id, "Resolved")}
-                className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-400 py-2 px-4 rounded-lg transition-all"
+                className="flex-1 py-2 px-4 rounded-2xl bg-green-500/20 hover:bg-green-500/30 text-green-400 transition-all"
               >
                 Mark Resolved
               </button>

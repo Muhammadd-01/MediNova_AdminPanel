@@ -98,6 +98,7 @@ export default function AdminManagement() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white mb-2">Admin Management</h1>
@@ -105,7 +106,7 @@ export default function AdminManagement() {
         </div>
         <button
           onClick={() => setShowAddAdmin(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all"
+          className="flex items-center space-x-2 px-4 py-2 bg-white text-[#023e8a] rounded-2xl font-medium hover:bg-white/90 transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Add Admin</span>
@@ -114,9 +115,9 @@ export default function AdminManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/20 rounded-lg">
+            <div className="p-2 bg-blue-500/20 rounded-2xl">
               <Shield className="w-5 h-5 text-blue-400" />
             </div>
             <div>
@@ -125,9 +126,9 @@ export default function AdminManagement() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/20 rounded-lg">
+            <div className="p-2 bg-green-500/20 rounded-2xl">
               <UserCheck className="w-5 h-5 text-green-400" />
             </div>
             <div>
@@ -136,9 +137,9 @@ export default function AdminManagement() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-red-500/20 rounded-lg">
+            <div className="p-2 bg-red-500/20 rounded-2xl">
               <UserX className="w-5 h-5 text-red-400" />
             </div>
             <div>
@@ -147,9 +148,9 @@ export default function AdminManagement() {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-purple-500/20 rounded-lg">
+            <div className="p-2 bg-purple-500/20 rounded-2xl">
               <Shield className="w-5 h-5 text-purple-400" />
             </div>
             <div>
@@ -168,12 +169,12 @@ export default function AdminManagement() {
           placeholder="Search admins..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+          className="w-full bg-white/10 border border-white/20 rounded-2xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
         />
       </div>
 
       {/* Admins Table */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-white/5">
@@ -206,7 +207,7 @@ export default function AdminManagement() {
                   </td>
                   <td className="py-4 px-6">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      className={`px-3 py-1 rounded-2xl text-xs font-medium ${
                         admin.role === "Super Admin"
                           ? "bg-purple-500/20 text-purple-400"
                           : admin.role === "Hospital Manager"
@@ -219,7 +220,7 @@ export default function AdminManagement() {
                   </td>
                   <td className="py-4 px-6">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      className={`px-3 py-1 rounded-2xl text-xs font-medium ${
                         admin.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
                       }`}
                     >
@@ -230,12 +231,12 @@ export default function AdminManagement() {
                   <td className="py-4 px-6">
                     <div className="flex flex-wrap gap-1">
                       {admin.permissions.slice(0, 2).map((permission, index) => (
-                        <span key={index} className="px-2 py-1 bg-white/10 text-white/70 rounded text-xs">
+                        <span key={index} className="px-2 py-1 bg-white/10 text-white/70 rounded-2xl text-xs">
                           {permission}
                         </span>
                       ))}
                       {admin.permissions.length > 2 && (
-                        <span className="px-2 py-1 bg-white/10 text-white/70 rounded text-xs">
+                        <span className="px-2 py-1 bg-white/10 text-white/70 rounded-2xl text-xs">
                           +{admin.permissions.length - 2}
                         </span>
                       )}
@@ -243,15 +244,15 @@ export default function AdminManagement() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-lg transition-all">
+                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-2xl transition-all">
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/10 rounded-lg transition-all">
+                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/10 rounded-2xl transition-all">
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => toggleAdminStatus(admin.id)}
-                        className={`p-2 hover:bg-white/10 rounded-lg transition-all ${
+                        className={`p-2 hover:bg-white/10 rounded-2xl transition-all ${
                           admin.status === "Active"
                             ? "text-red-400 hover:text-red-300"
                             : "text-green-400 hover:text-green-300"
@@ -261,7 +262,7 @@ export default function AdminManagement() {
                       </button>
                       <button
                         onClick={() => deleteAdmin(admin.id)}
-                        className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-lg transition-all"
+                        className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-2xl transition-all"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -277,7 +278,7 @@ export default function AdminManagement() {
       {/* Add Admin Modal */}
       {showAddAdmin && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#023e8a] border border-white/20 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#023e8a]/90 border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold text-white mb-6">Add New Admin</h2>
 
             <form onSubmit={handleAddAdmin} className="space-y-4">
@@ -289,7 +290,7 @@ export default function AdminManagement() {
                     value={newAdmin.name}
                     onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                     placeholder="Enter full name"
                   />
                 </div>
@@ -301,7 +302,7 @@ export default function AdminManagement() {
                     value={newAdmin.email}
                     onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                     placeholder="Enter email address"
                   />
                 </div>
@@ -312,7 +313,7 @@ export default function AdminManagement() {
                     type="tel"
                     value={newAdmin.phone}
                     onChange={(e) => setNewAdmin({ ...newAdmin, phone: e.target.value })}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                     placeholder="Enter phone number"
                   />
                 </div>
@@ -323,7 +324,7 @@ export default function AdminManagement() {
                     value={newAdmin.role}
                     onChange={(e) => setNewAdmin({ ...newAdmin, role: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
                   >
                     {roleOptions.map((role) => (
                       <option key={role} value={role} className="bg-black text-white">
@@ -363,14 +364,14 @@ export default function AdminManagement() {
               <div className="flex space-x-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-white text-[#023e8a] py-2 px-4 rounded-lg font-medium hover:bg-white/90 transition-all"
+                  className="flex-1 bg-white text-[#023e8a] py-2 px-4 rounded-2xl font-medium hover:bg-white/90 transition-all"
                 >
                   Add Admin
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowAddAdmin(false)}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-all"
+                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-2xl transition-all"
                 >
                   Cancel
                 </button>
