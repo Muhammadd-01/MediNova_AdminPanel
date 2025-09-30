@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Shield, Plus, Search, Eye, Edit, Trash2, UserCheck, UserX, Mail, Phone } from "lucide-react"
@@ -97,68 +98,52 @@ export default function AdminManagement() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-16 md:mt-20"> {/* Position below navbar */}
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white mb-2">Admin Management</h1>
-          <p className="text-white/60">Manage system administrators and their permissions.</p>
+      <div className="relative bg-gradient-to-r from-white/10 to-white/20 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
+        {/* Liquid Glass Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="relative flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-white mb-2">Admin Management</h1>
+            <p className="text-white/60">Manage system administrators and their permissions.</p>
+          </div>
+          <button
+            onClick={() => setShowAddAdmin(true)}
+            className="relative flex items-center space-x-2 px-4 py-2 bg-white text-[#023e8a] rounded-2xl font-medium hover:bg-white/90 transition-all duration-300 hover:shadow-lg group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <Plus className="w-4 h-4 relative" />
+            <span className="relative">Add Admin</span>
+          </button>
         </div>
-        <button
-          onClick={() => setShowAddAdmin(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-white text-[#023e8a] rounded-2xl font-medium hover:bg-white/90 transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Admin</span>
-        </button>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/20 rounded-2xl">
-              <Shield className="w-5 h-5 text-blue-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">{admins.length}</p>
-              <p className="text-white/60 text-sm">Total Admins</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/20 rounded-2xl">
-              <UserCheck className="w-5 h-5 text-green-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">{admins.filter((a) => a.status === "Active").length}</p>
-              <p className="text-white/60 text-sm">Active</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-red-500/20 rounded-2xl">
-              <UserX className="w-5 h-5 text-red-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">{admins.filter((a) => a.status === "Inactive").length}</p>
-              <p className="text-white/60 text-sm">Inactive</p>
+        {[
+          { icon: Shield, value: admins.length, title: "Total Admins", color: "text-blue-400", bg: "bg-blue-500/20" },
+          { icon: UserCheck, value: admins.filter((a) => a.status === "Active").length, title: "Active", color: "text-green-400", bg: "bg-green-500/20" },
+          { icon: UserX, value: admins.filter((a) => a.status === "Inactive").length, title: "Inactive", color: "text-red-400", bg: "bg-red-500/20" },
+          { icon: Shield, value: admins.filter((a) => a.role === "Super Admin").length, title: "Super Admins", color: "text-purple-400", bg: "bg-purple-500/20" },
+        ].map((stat, index) => (
+          <div
+            key={index}
+            className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-xl group"
+          >
+            {/* Liquid Glass Effect Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative flex items-center space-x-3">
+              <div className={`p-2 ${stat.bg} rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
+                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+              </div>
+              <div>
+                <p className="text-xl font-bold text-white">{stat.value}</p>
+                <p className="text-white/60 text-sm">{stat.title}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-purple-500/20 rounded-2xl">
-              <Shield className="w-5 h-5 text-purple-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">{admins.filter((a) => a.role === "Super Admin").length}</p>
-              <p className="text-white/60 text-sm">Super Admins</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Search */}
@@ -169,13 +154,15 @@ export default function AdminManagement() {
           placeholder="Search admins..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white/10 border border-white/20 rounded-2xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+          className="w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:shadow-lg"
         />
       </div>
 
       {/* Admins Table */}
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group">
+        {/* Liquid Glass Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="relative overflow-x-auto">
           <table className="w-full">
             <thead className="bg-white/5">
               <tr>
@@ -189,7 +176,7 @@ export default function AdminManagement() {
             </thead>
             <tbody>
               {filteredAdmins.map((admin) => (
-                <tr key={admin.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
+                <tr key={admin.id} className="border-t border-white/10 hover:bg-white/5 transition-colors duration-300">
                   <td className="py-4 px-6">
                     <div>
                       <p className="text-white font-medium">{admin.name}</p>
@@ -244,15 +231,15 @@ export default function AdminManagement() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-2xl transition-all">
+                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-2xl transition-all duration-300">
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/10 rounded-2xl transition-all">
+                      <button className="p-2 text-white/70 hover:text-green-400 hover:bg-white/10 rounded-2xl transition-all duration-300">
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => toggleAdminStatus(admin.id)}
-                        className={`p-2 hover:bg-white/10 rounded-2xl transition-all ${
+                        className={`p-2 hover:bg-white/10 rounded-2xl transition-all duration-300 ${
                           admin.status === "Active"
                             ? "text-red-400 hover:text-red-300"
                             : "text-green-400 hover:text-green-300"
@@ -262,7 +249,7 @@ export default function AdminManagement() {
                       </button>
                       <button
                         onClick={() => deleteAdmin(admin.id)}
-                        className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-2xl transition-all"
+                        className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-2xl transition-all duration-300"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -278,10 +265,12 @@ export default function AdminManagement() {
       {/* Add Admin Modal */}
       {showAddAdmin && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#023e8a]/90 border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-white mb-6">Add New Admin</h2>
+          <div className="relative bg-[#023e8a]/90 backdrop-blur-lg border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg hover:shadow-xl transition-all duration-500 group">
+            {/* Liquid Glass Effect Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <h2 className="relative text-xl font-bold text-white mb-6">Add New Admin</h2>
 
-            <form onSubmit={handleAddAdmin} className="space-y-4">
+            <form onSubmit={handleAddAdmin} className="relative space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-white font-medium mb-2">Full Name *</label>
@@ -290,7 +279,7 @@ export default function AdminManagement() {
                     value={newAdmin.name}
                     onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:shadow-lg"
                     placeholder="Enter full name"
                   />
                 </div>
@@ -302,7 +291,7 @@ export default function AdminManagement() {
                     value={newAdmin.email}
                     onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:shadow-lg"
                     placeholder="Enter email address"
                   />
                 </div>
@@ -313,7 +302,7 @@ export default function AdminManagement() {
                     type="tel"
                     value={newAdmin.phone}
                     onChange={(e) => setNewAdmin({ ...newAdmin, phone: e.target.value })}
-                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:shadow-lg"
                     placeholder="Enter phone number"
                   />
                 </div>
@@ -324,7 +313,7 @@ export default function AdminManagement() {
                     value={newAdmin.role}
                     onChange={(e) => setNewAdmin({ ...newAdmin, role: e.target.value })}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                    className="w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:shadow-lg"
                   >
                     {roleOptions.map((role) => (
                       <option key={role} value={role} className="bg-black text-white">
@@ -364,16 +353,18 @@ export default function AdminManagement() {
               <div className="flex space-x-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-white text-[#023e8a] py-2 px-4 rounded-2xl font-medium hover:bg-white/90 transition-all"
+                  className="relative flex-1 bg-white text-[#023e8a] py-2 px-4 rounded-2xl font-medium hover:bg-white/90 transition-all duration-300 hover:shadow-lg group"
                 >
-                  Add Admin
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative">Add Admin</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowAddAdmin(false)}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-2xl transition-all"
+                  className="relative flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-2xl transition-all duration-300 hover:shadow-lg group"
                 >
-                  Cancel
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative">Cancel</span>
                 </button>
               </div>
             </form>
@@ -383,3 +374,5 @@ export default function AdminManagement() {
     </div>
   )
 }
+
+

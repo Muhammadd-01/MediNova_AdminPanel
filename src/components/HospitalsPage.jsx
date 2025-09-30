@@ -78,9 +78,9 @@ export default function HospitalsPage() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/20 rounded-full">
+            <div className="p-2 bg-green-500/20 rounded-lg">
               <Check className="w-5 h-5 text-green-400" />
             </div>
             <div>
@@ -89,9 +89,9 @@ export default function HospitalsPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-yellow-500/20 rounded-full">
+            <div className="p-2 bg-yellow-500/20 rounded-lg">
               <Building2 className="w-5 h-5 text-yellow-400" />
             </div>
             <div>
@@ -100,9 +100,9 @@ export default function HospitalsPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-red-500/20 rounded-full">
+            <div className="p-2 bg-red-500/20 rounded-lg">
               <X className="w-5 h-5 text-red-400" />
             </div>
             <div>
@@ -111,9 +111,9 @@ export default function HospitalsPage() {
             </div>
           </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/20 rounded-full">
+            <div className="p-2 bg-blue-500/20 rounded-lg">
               <MapPin className="w-5 h-5 text-blue-400" />
             </div>
             <div>
@@ -129,11 +129,11 @@ export default function HospitalsPage() {
         {hospitals.map((hospital) => (
           <div
             key={hospital.id}
-            className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-white/10 rounded-full">
+                <div className="p-3 bg-white/10 rounded-lg">
                   <Building2 className="w-6 h-6 text-blue-400" />
                 </div>
                 <div>
@@ -149,8 +149,8 @@ export default function HospitalsPage() {
                   hospital.status === "Verified"
                     ? "bg-green-500/20 text-green-400"
                     : hospital.status === "Pending"
-                    ? "bg-yellow-500/20 text-yellow-400"
-                    : "bg-red-500/20 text-red-400"
+                      ? "bg-yellow-500/20 text-yellow-400"
+                      : "bg-red-500/20 text-red-400"
                 }`}
               >
                 {hospital.status}
@@ -174,10 +174,8 @@ export default function HospitalsPage() {
 
             <div className="flex items-center space-x-2 mb-4">
               <span
-                className={`px-2 py-1 rounded-full text-xs ${
-                  hospital.type === "Government"
-                    ? "bg-blue-500/20 text-blue-400"
-                    : "bg-purple-500/20 text-purple-400"
+                className={`px-2 py-1 rounded text-xs ${
+                  hospital.type === "Government" ? "bg-blue-500/20 text-blue-400" : "bg-purple-500/20 text-purple-400"
                 }`}
               >
                 {hospital.type}
@@ -185,7 +183,7 @@ export default function HospitalsPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <button className="flex-1 flex items-center justify-center space-x-2 py-2 px-4 bg-white/10 hover:bg-white/20 rounded-full transition-all text-white">
+              <button className="flex-1 flex items-center justify-center space-x-2 py-2 px-4 bg-white/10 hover:bg-white/20 rounded-lg transition-all text-white">
                 <Eye className="w-4 h-4" />
                 <span>View Details</span>
               </button>
@@ -193,13 +191,13 @@ export default function HospitalsPage() {
                 <>
                   <button
                     onClick={() => approveHospital(hospital.id)}
-                    className="flex items-center justify-center p-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-full transition-all"
+                    className="flex items-center justify-center p-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-all"
                   >
                     <Check className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => rejectHospital(hospital.id)}
-                    className="flex items-center justify-center p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-full transition-all"
+                    className="flex items-center justify-center p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all"
                   >
                     <X className="w-4 h-4" />
                   </button>
