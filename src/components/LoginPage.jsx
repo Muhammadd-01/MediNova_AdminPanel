@@ -1,38 +1,55 @@
-"use client"
+"use client";
 
-import { Activity, Mail, Lock, Eye, EyeOff } from "lucide-react"
-import { useState, useEffect } from "react"
+import { Activity, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function LoginPage({ onLogin }) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  })
+  });
 
-  // Load saved credentials on component mount
+  // Load saved credentials
   useEffect(() => {
-    const savedCredentials = localStorage.getItem("medinovaCredentials")
+    const savedCredentials = localStorage.getItem("medinovaCredentials");
     if (savedCredentials) {
-      const { email, password, remember } = JSON.parse(savedCredentials)
+      const { email, password, remember } = JSON.parse(savedCredentials);
       if (remember) {
-        setFormData({ email, password })
-        setRememberMe(true)
+        setFormData({ email, password });
+        setRememberMe(true);
       }
     }
-  }, [])
+  }, []);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    // Simulate login process
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const res = await fetch("http://localhost:4001/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // Simple validation for demo
-    if (formData.email && formData.password) {
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid email or password");
+      }
+
       // Save credentials if remember me is checked
       if (rememberMe) {
         localStorage.setItem(
@@ -41,31 +58,30 @@ export default function LoginPage({ onLogin }) {
             email: formData.email,
             password: formData.password,
             remember: true,
-          }),
-        )
+          })
+        );
       } else {
-        localStorage.removeItem("medinovaCredentials")
+        localStorage.removeItem("medinovaCredentials");
       }
 
-      onLogin()
-    }
-    setLoading(false)
-  }
+      // Store token and user info
+      localStorage.setItem("adminToken", data.token);
+      localStorage.setItem("adminUser", JSON.stringify(data.admin));
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+      onLogin?.(); // trigger parent login success handler
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleForgotPassword = () => {
-    alert("Password reset link has been sent to your email address.")
-  }
+    alert("Password reset link has been sent to your email address.");
+  };
 
   return (
     <div className="min-h-screen bg-[#023e8a] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Login Form */}
       <div className="relative z-10 w-full max-w-md">
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl">
           {/* Logo and Header */}
@@ -73,15 +89,30 @@ export default function LoginPage({ onLogin }) {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl mb-4 shadow-lg">
               <Activity className="w-8 h-8 text-[#023e8a]" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">MediNova</h1>
-            <p className="text-white/70 text-sm md:text-base">Advanced Healthcare Administration</p>
-            <p className="text-white/50 text-xs md:text-sm mt-1">Secure Admin Portal</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              MediNova
+            </h1>
+            <p className="text-white/70 text-sm md:text-base">
+              Advanced Healthcare Administration
+            </p>
+            <p className="text-white/50 text-xs md:text-sm mt-1">
+              Secure Admin Portal
+            </p>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-500/20 border border-red-400 text-red-200 text-sm rounded-md p-2 mb-4 text-center">
+              {error}
+            </div>
+          )}
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-white font-medium mb-2 text-sm md:text-base">Email Address</label>
+              <label className="block text-white font-medium mb-2 text-sm md:text-base">
+                Email Address
+              </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4 md:w-5 md:h-5" />
                 <input
@@ -97,7 +128,9 @@ export default function LoginPage({ onLogin }) {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2 text-sm md:text-base">Password</label>
+              <label className="block text-white font-medium mb-2 text-sm md:text-base">
+                Password
+              </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4 md:w-5 md:h-5" />
                 <input
@@ -160,8 +193,12 @@ export default function LoginPage({ onLogin }) {
 
           {/* Footer */}
           <div className="mt-8 text-center">
-            <p className="text-white/50 text-xs md:text-sm">Secure healthcare administration platform</p>
-            <p className="text-white/40 text-xs mt-2">Version 2.0 - Enhanced Security</p>
+            <p className="text-white/50 text-xs md:text-sm">
+              Secure healthcare administration platform
+            </p>
+            <p className="text-white/40 text-xs mt-2">
+              Version 2.0 - Enhanced Security
+            </p>
           </div>
         </div>
 
@@ -169,12 +206,15 @@ export default function LoginPage({ onLogin }) {
         <div className="mt-6 text-center">
           <p className="text-white/60 text-xs md:text-sm">
             Need help? Contact IT Support at{" "}
-            <a href="mailto:support@medinova.com" className="text-white hover:underline">
+            <a
+              href="mailto:support@medinova.com"
+              className="text-white hover:underline"
+            >
               support@medinova.com
             </a>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
