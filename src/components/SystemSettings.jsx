@@ -44,7 +44,6 @@ export default function SystemSettings() {
   ]
 
   const handleSave = (section) => {
-    // Simulate saving settings
     alert(`${section} settings saved successfully!`)
   }
 
@@ -66,9 +65,9 @@ export default function SystemSettings() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Settings Sidebar */}
+        {/* Sidebar */}
         <div className="lg:col-span-1">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 shadow-lg">
             <nav className="space-y-2">
               {tabs.map((tab) => {
                 const Icon = tab.icon
@@ -76,10 +75,10 @@ export default function SystemSettings() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                       activeTab === tab.id
-                        ? "bg-white/10 text-white border border-white/20"
-                        : "text-white/70 hover:bg-white/5 hover:text-white"
+                        ? "bg-white/20 text-white border border-white/30 shadow-md"
+                        : "text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -91,9 +90,9 @@ export default function SystemSettings() {
           </div>
         </div>
 
-        {/* Settings Content */}
+        {/* Content */}
         <div className="lg:col-span-3">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+          <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 shadow-xl">
             {activeTab === "general" && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-white">General Settings</h2>
@@ -105,7 +104,7 @@ export default function SystemSettings() {
                       type="text"
                       value={settings.general.systemName}
                       onChange={(e) => updateSetting("general", "systemName", e.target.value)}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40"
                     />
                   </div>
 
@@ -114,20 +113,12 @@ export default function SystemSettings() {
                     <select
                       value={settings.general.timezone}
                       onChange={(e) => updateSetting("general", "timezone", e.target.value)}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/40"
                     >
-                      <option value="UTC-5" className="bg-black text-white">
-                        UTC-5 (Eastern)
-                      </option>
-                      <option value="UTC-6" className="bg-black text-white">
-                        UTC-6 (Central)
-                      </option>
-                      <option value="UTC-7" className="bg-black text-white">
-                        UTC-7 (Mountain)
-                      </option>
-                      <option value="UTC-8" className="bg-black text-white">
-                        UTC-8 (Pacific)
-                      </option>
+                      <option value="UTC-5" className="bg-black text-white">UTC-5 (Eastern)</option>
+                      <option value="UTC-6" className="bg-black text-white">UTC-6 (Central)</option>
+                      <option value="UTC-7" className="bg-black text-white">UTC-7 (Mountain)</option>
+                      <option value="UTC-8" className="bg-black text-white">UTC-8 (Pacific)</option>
                     </select>
                   </div>
 
@@ -136,17 +127,11 @@ export default function SystemSettings() {
                     <select
                       value={settings.general.language}
                       onChange={(e) => updateSetting("general", "language", e.target.value)}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/40"
                     >
-                      <option value="English" className="bg-black text-white">
-                        English
-                      </option>
-                      <option value="Spanish" className="bg-black text-white">
-                        Spanish
-                      </option>
-                      <option value="French" className="bg-black text-white">
-                        French
-                      </option>
+                      <option value="English" className="bg-black text-white">English</option>
+                      <option value="Spanish" className="bg-black text-white">Spanish</option>
+                      <option value="French" className="bg-black text-white">French</option>
                     </select>
                   </div>
 
@@ -155,22 +140,16 @@ export default function SystemSettings() {
                     <select
                       value={settings.general.dateFormat}
                       onChange={(e) => updateSetting("general", "dateFormat", e.target.value)}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/40"
                     >
-                      <option value="MM/DD/YYYY" className="bg-black text-white">
-                        MM/DD/YYYY
-                      </option>
-                      <option value="DD/MM/YYYY" className="bg-black text-white">
-                        DD/MM/YYYY
-                      </option>
-                      <option value="YYYY-MM-DD" className="bg-black text-white">
-                        YYYY-MM-DD
-                      </option>
+                      <option value="MM/DD/YYYY" className="bg-black text-white">MM/DD/YYYY</option>
+                      <option value="DD/MM/YYYY" className="bg-black text-white">DD/MM/YYYY</option>
+                      <option value="YYYY-MM-DD" className="bg-black text-white">YYYY-MM-DD</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
                   <div>
                     <h3 className="text-white font-medium">Maintenance Mode</h3>
                     <p className="text-white/60 text-sm">Enable maintenance mode to restrict system access</p>
@@ -178,7 +157,7 @@ export default function SystemSettings() {
                   <button
                     onClick={() => updateSetting("general", "maintenanceMode", !settings.general.maintenanceMode)}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings.general.maintenanceMode ? "bg-red-500" : "bg-white/20"
+                      settings.general.maintenanceMode ? "bg-red-500" : "bg-white/30"
                     }`}
                   >
                     <span
@@ -191,7 +170,7 @@ export default function SystemSettings() {
 
                 <button
                   onClick={() => handleSave("General")}
-                  className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all"
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save General Settings</span>
@@ -205,7 +184,7 @@ export default function SystemSettings() {
 
                 <div className="space-y-4">
                   {Object.entries(settings.notifications).map(([key, value]) => (
-                    <div key={key} className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                    <div key={key} className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
                       <div className="flex items-center space-x-3">
                         {key.includes("email") && <Mail className="w-5 h-5 text-blue-400" />}
                         {key.includes("sms") && <Smartphone className="w-5 h-5 text-green-400" />}
@@ -230,7 +209,7 @@ export default function SystemSettings() {
                       <button
                         onClick={() => updateSetting("notifications", key, !value)}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          value ? "bg-white" : "bg-white/20"
+                          value ? "bg-white" : "bg-white/30"
                         }`}
                       >
                         <span
@@ -245,7 +224,7 @@ export default function SystemSettings() {
 
                 <button
                   onClick={() => handleSave("Notification")}
-                  className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all"
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save Notification Settings</span>
@@ -264,7 +243,7 @@ export default function SystemSettings() {
                       type="number"
                       value={settings.security.sessionTimeout}
                       onChange={(e) => updateSetting("security", "sessionTimeout", Number.parseInt(e.target.value))}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40"
                     />
                   </div>
 
@@ -274,7 +253,7 @@ export default function SystemSettings() {
                       type="number"
                       value={settings.security.passwordExpiry}
                       onChange={(e) => updateSetting("security", "passwordExpiry", Number.parseInt(e.target.value))}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40"
                     />
                   </div>
 
@@ -284,12 +263,12 @@ export default function SystemSettings() {
                       type="number"
                       value={settings.security.loginAttempts}
                       onChange={(e) => updateSetting("security", "loginAttempts", Number.parseInt(e.target.value))}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
                   <div>
                     <h3 className="text-white font-medium">Two-Factor Authentication</h3>
                     <p className="text-white/60 text-sm">Require 2FA for all admin accounts</p>
@@ -297,7 +276,7 @@ export default function SystemSettings() {
                   <button
                     onClick={() => updateSetting("security", "twoFactorAuth", !settings.security.twoFactorAuth)}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings.security.twoFactorAuth ? "bg-white" : "bg-white/20"
+                      settings.security.twoFactorAuth ? "bg-white" : "bg-white/30"
                     }`}
                   >
                     <span
@@ -310,7 +289,7 @@ export default function SystemSettings() {
 
                 <button
                   onClick={() => handleSave("Security")}
-                  className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all"
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save Security Settings</span>
@@ -328,17 +307,11 @@ export default function SystemSettings() {
                     <select
                       value={settings.database.backupFrequency}
                       onChange={(e) => updateSetting("database", "backupFrequency", e.target.value)}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/40"
                     >
-                      <option value="hourly" className="bg-black text-white">
-                        Hourly
-                      </option>
-                      <option value="daily" className="bg-black text-white">
-                        Daily
-                      </option>
-                      <option value="weekly" className="bg-black text-white">
-                        Weekly
-                      </option>
+                      <option value="hourly" className="bg-black text-white">Hourly</option>
+                      <option value="daily" className="bg-black text-white">Daily</option>
+                      <option value="weekly" className="bg-black text-white">Weekly</option>
                     </select>
                   </div>
 
@@ -348,13 +321,13 @@ export default function SystemSettings() {
                       type="number"
                       value={settings.database.retentionPeriod}
                       onChange={(e) => updateSetting("database", "retentionPeriod", Number.parseInt(e.target.value))}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/40"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
                     <div>
                       <h3 className="text-white font-medium">Auto Cleanup</h3>
                       <p className="text-white/60 text-sm">Automatically clean old data</p>
@@ -362,7 +335,7 @@ export default function SystemSettings() {
                     <button
                       onClick={() => updateSetting("database", "autoCleanup", !settings.database.autoCleanup)}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        settings.database.autoCleanup ? "bg-white" : "bg-white/20"
+                        settings.database.autoCleanup ? "bg-white" : "bg-white/30"
                       }`}
                     >
                       <span
@@ -373,7 +346,7 @@ export default function SystemSettings() {
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-white/10 rounded-xl border border-white/20">
                     <div>
                       <h3 className="text-white font-medium">Compression</h3>
                       <p className="text-white/60 text-sm">Enable database compression</p>
@@ -383,7 +356,7 @@ export default function SystemSettings() {
                         updateSetting("database", "compressionEnabled", !settings.database.compressionEnabled)
                       }
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        settings.database.compressionEnabled ? "bg-white" : "bg-white/20"
+                        settings.database.compressionEnabled ? "bg-white" : "bg-white/30"
                       }`}
                     >
                       <span
@@ -397,7 +370,7 @@ export default function SystemSettings() {
 
                 <button
                   onClick={() => handleSave("Database")}
-                  className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all"
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save Database Settings</span>

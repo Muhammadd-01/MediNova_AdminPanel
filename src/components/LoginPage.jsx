@@ -50,7 +50,11 @@ export default function LoginPage({ onLogin }) {
         throw new Error(data.message || "Invalid email or password");
       }
 
+<<<<<<< HEAD
       // Save credentials if remember me is checked
+=======
+    if (formData.email && formData.password) {
+>>>>>>> b38572da508e37ccacd3e6e876a4becf4970d47e
       if (rememberMe) {
         localStorage.setItem(
           "medinovaCredentials",
@@ -63,10 +67,17 @@ export default function LoginPage({ onLogin }) {
       } else {
         localStorage.removeItem("medinovaCredentials");
       }
+<<<<<<< HEAD
 
       // Store token and user info
       localStorage.setItem("adminToken", data.token);
       localStorage.setItem("adminUser", JSON.stringify(data.admin));
+=======
+      onLogin()
+    }
+    setLoading(false)
+  }
+>>>>>>> b38572da508e37ccacd3e6e876a4becf4970d47e
 
       onLogin?.(); // trigger parent login success handler
     } catch (err) {
@@ -81,12 +92,17 @@ export default function LoginPage({ onLogin }) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-[#023e8a] flex items-center justify-center p-4 relative overflow-hidden">
+=======
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Login Form */}
+>>>>>>> b38572da508e37ccacd3e6e876a4becf4970d47e
       <div className="relative z-10 w-full max-w-md">
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 md:p-8 shadow-2xl">
           {/* Logo and Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl mb-4 shadow-lg">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-3xl mb-4 shadow-lg">
               <Activity className="w-8 h-8 text-[#023e8a]" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
@@ -121,7 +137,7 @@ export default function LoginPage({ onLogin }) {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-white/10 border border-white/30 rounded-lg pl-10 md:pl-12 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all text-sm md:text-base"
+                  className="w-full bg-white/10 border border-white/30 rounded-2xl pl-10 md:pl-12 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all text-sm md:text-base"
                   placeholder="admin@medinova.com"
                 />
               </div>
@@ -139,7 +155,7 @@ export default function LoginPage({ onLogin }) {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full bg-white/10 border border-white/30 rounded-lg pl-10 md:pl-12 pr-12 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all text-sm md:text-base"
+                  className="w-full bg-white/10 border border-white/30 rounded-2xl pl-10 md:pl-12 pr-12 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all text-sm md:text-base"
                   placeholder="Enter your password"
                 />
                 <button
@@ -162,7 +178,7 @@ export default function LoginPage({ onLogin }) {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-white/30 bg-white/10 text-white focus:ring-white/50 focus:ring-2"
+                  className="rounded-md border-white/30 bg-white/10 text-white focus:ring-white/50 focus:ring-2"
                 />
                 <span className="text-xs md:text-sm">Remember me</span>
               </label>
@@ -178,7 +194,7 @@ export default function LoginPage({ onLogin }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-white text-[#023e8a] py-3 rounded-lg font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2 text-sm md:text-base"
+              className="w-full bg-white text-[#023e8a] py-3 rounded-2xl font-semibold hover:bg-white/90 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2 text-sm md:text-base"
             >
               {loading ? (
                 <>

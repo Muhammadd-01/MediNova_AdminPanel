@@ -18,8 +18,9 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 md:p-6">
+    <div className="space-y-6 mt-16 md:mt-20"> {/* Added margin-top to position below navbar */}
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-white/10 to-white/20 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500">
         <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">MediNova Dashboard</h1>
         <p className="text-white/70 text-sm md:text-base">
           Welcome back! Here's what's happening with your healthcare network today.
@@ -43,10 +44,12 @@ export default function Dashboard() {
           return (
             <div
               key={index}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 md:p-6 hover:bg-white/10 transition-all duration-300 hover:scale-105 group cursor-pointer"
+              className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl group cursor-pointer"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg bg-white/10 ${stat.color} group-hover:scale-110 transition-transform`}>
+              {/* Liquid Glass Effect Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg bg-white/20 ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className="w-5 h-5 md:w-6 md:h-6" />
                 </div>
                 <span className={`text-sm font-medium ${stat.color} flex items-center space-x-1`}>
@@ -54,11 +57,11 @@ export default function Dashboard() {
                   <span>{stat.change}</span>
                 </span>
               </div>
-              <div>
+              <div className="relative">
                 <p className="text-xl md:text-2xl font-bold text-white mb-1">{stat.value}</p>
                 <p className="text-white/60 text-sm">{stat.title}</p>
               </div>
-              <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-white/50 text-xs">Click to view details →</p>
               </div>
             </div>
@@ -68,20 +71,22 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Emergency Trends Chart */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 md:p-6">
-          <div className="flex items-center justify-between mb-6">
+        <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
+          {/* Liquid Glass Effect Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-white">Emergency Trends</h3>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
               <span className="text-red-400 text-sm">Live Data</span>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="relative space-y-4">
             {emergencyData.map((data, index) => (
               <div key={index} className="flex items-center justify-between">
                 <span className="text-white/70 text-sm font-medium">{data.month}</span>
                 <div className="flex items-center space-x-3">
-                  <div className="w-24 md:w-32 bg-white/10 rounded-full h-2">
+                  <div className="w-24 md:w-32 bg-white/20 rounded-full h-2">
                     <div
                       className="bg-gradient-to-r from-blue-400 to-purple-400 h-2 rounded-full transition-all duration-1000"
                       style={{ width: `${(data.reports / 200) * 100}%` }}
@@ -95,13 +100,15 @@ export default function Dashboard() {
         </div>
 
         {/* Hospital Map */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 md:p-6">
-          <div className="flex items-center justify-between mb-6">
+        <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
+          {/* Liquid Glass Effect Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-white">MediNova Network</h3>
             <MapPin className="w-5 h-5 text-blue-400" />
           </div>
-          <div className="relative h-48 bg-white/5 rounded-lg overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20"></div>
+          <div className="relative h-48 bg-white/10 rounded-lg overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30"></div>
             <div className="absolute top-4 left-4 w-3 h-3 bg-red-400 rounded-full animate-pulse shadow-lg"></div>
             <div className="absolute top-8 right-8 w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
             <div className="absolute bottom-6 left-8 w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg"></div>

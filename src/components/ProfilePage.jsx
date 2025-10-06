@@ -51,7 +51,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Profile Sidebar */}
         <div className="lg:col-span-1">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+          <div className="p-6 rounded-2xl">
             <div className="text-center mb-6">
               <div className="relative inline-block">
                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-3">
@@ -72,7 +72,7 @@ export default function ProfilePage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
                       activeTab === tab.id
                         ? "bg-white/10 text-white border border-white/20"
                         : "text-white/70 hover:bg-white/5 hover:text-white"
@@ -89,7 +89,7 @@ export default function ProfilePage() {
 
         {/* Main Content */}
         <div className="lg:col-span-3">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+          <div className="p-6 rounded-2xl">
             {activeTab === "profile" && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-white">Profile Information</h2>
@@ -104,7 +104,7 @@ export default function ProfilePage() {
                         name="name"
                         value={profileData.name}
                         onChange={handleProfileChange}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                       />
                     </div>
                   </div>
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                         name="email"
                         value={profileData.email}
                         onChange={handleProfileChange}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                       />
                     </div>
                   </div>
@@ -132,7 +132,7 @@ export default function ProfilePage() {
                         name="phone"
                         value={profileData.phone}
                         onChange={handleProfileChange}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                       />
                     </div>
                   </div>
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                         name="location"
                         value={profileData.location}
                         onChange={handleProfileChange}
-                        className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                       />
                     </div>
                   </div>
@@ -158,7 +158,7 @@ export default function ProfilePage() {
                       name="role"
                       value={profileData.role}
                       onChange={handleProfileChange}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                     />
                   </div>
 
@@ -169,12 +169,12 @@ export default function ProfilePage() {
                       name="department"
                       value={profileData.department}
                       onChange={handleProfileChange}
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                     />
                   </div>
                 </div>
 
-                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all">
+                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-medium hover:bg-white/90 transition-all">
                   <Save className="w-4 h-4" />
                   <span>Save Changes</span>
                 </button>
@@ -186,35 +186,24 @@ export default function ProfilePage() {
                 <h2 className="text-xl font-semibold text-white">Security Settings</h2>
 
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-white font-medium mb-2">Current Password</label>
-                    <input
-                      type="password"
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                      placeholder="Enter current password"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-white font-medium mb-2">New Password</label>
-                    <input
-                      type="password"
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                      placeholder="Enter new password"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-white font-medium mb-2">Confirm New Password</label>
-                    <input
-                      type="password"
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                      placeholder="Confirm new password"
-                    />
-                  </div>
+                  <input
+                    type="password"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    placeholder="Enter current password"
+                  />
+                  <input
+                    type="password"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    placeholder="Enter new password"
+                  />
+                  <input
+                    type="password"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    placeholder="Confirm new password"
+                  />
                 </div>
 
-                <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                   <h3 className="text-white font-medium mb-2">Password Requirements</h3>
                   <ul className="text-white/60 text-sm space-y-1">
                     <li>• At least 8 characters long</li>
@@ -224,7 +213,7 @@ export default function ProfilePage() {
                   </ul>
                 </div>
 
-                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all">
+                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-medium hover:bg-white/90 transition-all">
                   <Lock className="w-4 h-4" />
                   <span>Update Password</span>
                 </button>
@@ -236,84 +225,34 @@ export default function ProfilePage() {
                 <h2 className="text-xl font-semibold text-white">Notification Preferences</h2>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                    <div>
-                      <h3 className="text-white font-medium">Email Alerts</h3>
-                      <p className="text-white/60 text-sm">Receive email notifications for important updates</p>
-                    </div>
-                    <button
-                      onClick={() => handleNotificationChange("emailAlerts")}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        notifications.emailAlerts ? "bg-white" : "bg-white/20"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-[#023e8a] transition-transform ${
-                          notifications.emailAlerts ? "translate-x-6" : "translate-x-1"
+                  {[
+                    { key: "emailAlerts", title: "Email Alerts", desc: "Receive email notifications for important updates" },
+                    { key: "smsAlerts", title: "SMS Alerts", desc: "Receive text message notifications" },
+                    { key: "emergencyAlerts", title: "Emergency Alerts", desc: "Critical emergency notifications" },
+                    { key: "weeklyReports", title: "Weekly Reports", desc: "Weekly summary reports" },
+                  ].map((item) => (
+                    <div key={item.key} className="flex items-center justify-between p-4 bg-white/5 rounded-xl">
+                      <div>
+                        <h3 className="text-white font-medium">{item.title}</h3>
+                        <p className="text-white/60 text-sm">{item.desc}</p>
+                      </div>
+                      <button
+                        onClick={() => handleNotificationChange(item.key)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          notifications[item.key] ? "bg-white" : "bg-white/20"
                         }`}
-                      />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                    <div>
-                      <h3 className="text-white font-medium">SMS Alerts</h3>
-                      <p className="text-white/60 text-sm">Receive text message notifications</p>
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-[#023e8a] transition-transform ${
+                            notifications[item.key] ? "translate-x-6" : "translate-x-1"
+                          }`}
+                        />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => handleNotificationChange("smsAlerts")}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        notifications.smsAlerts ? "bg-white" : "bg-white/20"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-[#023e8a] transition-transform ${
-                          notifications.smsAlerts ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                    <div>
-                      <h3 className="text-white font-medium">Emergency Alerts</h3>
-                      <p className="text-white/60 text-sm">Critical emergency notifications</p>
-                    </div>
-                    <button
-                      onClick={() => handleNotificationChange("emergencyAlerts")}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        notifications.emergencyAlerts ? "bg-white" : "bg-white/20"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-[#023e8a] transition-transform ${
-                          notifications.emergencyAlerts ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                    <div>
-                      <h3 className="text-white font-medium">Weekly Reports</h3>
-                      <p className="text-white/60 text-sm">Weekly summary reports</p>
-                    </div>
-                    <button
-                      onClick={() => handleNotificationChange("weeklyReports")}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        notifications.weeklyReports ? "bg-white" : "bg-white/20"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-[#023e8a] transition-transform ${
-                          notifications.weeklyReports ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
+                  ))}
                 </div>
 
-                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-lg font-medium hover:bg-white/90 transition-all">
+                <button className="flex items-center space-x-2 px-6 py-3 bg-white text-[#023e8a] rounded-xl font-medium hover:bg-white/90 transition-all">
                   <Save className="w-4 h-4" />
                   <span>Save Preferences</span>
                 </button>

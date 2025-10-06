@@ -88,63 +88,49 @@ export default function EmergenciesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white mb-2">Emergency Reports</h1>
-        <p className="text-white/60">Monitor and manage emergency cases in real-time.</p>
+    <div className="space-y-6 mt-16 md:mt-20"> {/* Position below navbar */}
+      {/* Header */}
+      <div className="relative bg-gradient-to-r from-white/10 to-white/20 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
+        {/* Liquid Glass Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="relative">
+          <h1 className="text-2xl font-bold text-white mb-2">Emergency Reports</h1>
+          <p className="text-white/60">Monitor and manage emergency cases in real-time.</p>
+        </div>
       </div>
 
       {/* Emergency Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-red-500/20 rounded-lg">
-              <AlertTriangle className="w-5 h-5 text-red-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">12</p>
-              <p className="text-white/60 text-sm">Critical</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-orange-500/20 rounded-lg">
-              <AlertTriangle className="w-5 h-5 text-orange-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">28</p>
-              <p className="text-white/60 text-sm">High Priority</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-500/20 rounded-lg">
-              <Clock className="w-5 h-5 text-blue-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">45</p>
-              <p className="text-white/60 text-sm">In Progress</p>
+        {[
+          { icon: AlertTriangle, value: 12, title: "Critical", color: "text-red-400", bg: "bg-red-500/20" },
+          { icon: AlertTriangle, value: 28, title: "High Priority", color: "text-orange-400", bg: "bg-orange-500/20" },
+          { icon: Clock, value: 45, title: "In Progress", color: "text-blue-400", bg: "bg-blue-500/20" },
+          { icon: AlertTriangle, value: 156, title: "Resolved Today", color: "text-green-400", bg: "bg-green-500/20" },
+        ].map((stat, index) => (
+          <div
+            key={index}
+            className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-xl group"
+          >
+            {/* Liquid Glass Effect Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative flex items-center space-x-3">
+              <div className={`p-2 ${stat.bg} rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
+                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+              </div>
+              <div>
+                <p className="text-xl font-bold text-white">{stat.value}</p>
+                <p className="text-white/60 text-sm">{stat.title}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500/20 rounded-lg">
-              <AlertTriangle className="w-5 h-5 text-green-400" />
-            </div>
-            <div>
-              <p className="text-xl font-bold text-white">156</p>
-              <p className="text-white/60 text-sm">Resolved Today</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Emergency Reports Table */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group">
+        {/* Liquid Glass Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="relative overflow-x-auto">
           <table className="w-full">
             <thead className="bg-white/5">
               <tr>
@@ -159,22 +145,16 @@ export default function EmergenciesPage() {
             </thead>
             <tbody>
               {emergencies.map((emergency) => (
-                <tr key={emergency.id} className="border-t border-white/10 hover:bg-white/5 transition-colors">
+                <tr key={emergency.id} className="border-t border-white/10 hover:bg-white/5 transition-colors duration-300">
+                  <td className="py-4 px-6 text-white font-mono">{emergency.id}</td>
+                  <td className="py-4 px-6 text-white font-medium">{emergency.patient}</td>
                   <td className="py-4 px-6">
-                    <span className="text-white font-mono">{emergency.id}</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <p className="text-white font-medium">{emergency.patient}</p>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getSeverityColor(emergency.severity)}`}
-                    >
+                    <span className={`px-3 py-1 rounded-2xl text-xs font-medium ${getSeverityColor(emergency.severity)}`}>
                       {emergency.severity}
                     </span>
                   </td>
                   <td className="py-4 px-6">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(emergency.status)}`}>
+                    <span className={`px-3 py-1 rounded-2xl text-xs font-medium ${getStatusColor(emergency.status)}`}>
                       {emergency.status}
                     </span>
                   </td>
@@ -193,10 +173,11 @@ export default function EmergenciesPage() {
                   <td className="py-4 px-6">
                     <button
                       onClick={() => setSelectedEmergency(emergency)}
-                      className="flex items-center space-x-2 px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-all"
+                      className="relative flex items-center space-x-2 px-3 py-2 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 transition-all duration-300 group"
                     >
-                      <Eye className="w-4 h-4" />
-                      <span className="text-sm">View</span>
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <Eye className="w-4 h-4 relative" />
+                      <span className="text-sm relative">View</span>
                     </button>
                   </td>
                 </tr>
@@ -209,62 +190,52 @@ export default function EmergenciesPage() {
       {/* Emergency Details Modal */}
       {selectedEmergency && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#023e8a] border border-white/20 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
+          <div className="relative bg-[#023e8a]/90 backdrop-blur-lg border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg hover:shadow-xl transition-all duration-500 group">
+            {/* Liquid Glass Effect Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white">Emergency Details - {selectedEmergency.id}</h2>
               <button
                 onClick={() => setSelectedEmergency(null)}
-                className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                className="relative p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300 group"
               >
-                <X className="w-5 h-5" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <X className="w-5 h-5 relative" />
               </button>
             </div>
 
-            <div className="space-y-6">
+            <div className="relative space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-3">Patient Information</h3>
-                  <div className="space-y-2">
-                    <p className="text-white/70">
-                      <span className="text-white">Name:</span> {selectedEmergency.patient}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Report ID:</span> {selectedEmergency.id}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Time:</span> {selectedEmergency.time}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Location:</span> {selectedEmergency.location}
-                    </p>
+                  <div className="space-y-2 text-white/70">
+                    <p><span className="text-white">Name:</span> {selectedEmergency.patient}</p>
+                    <p><span className="text-white">Report ID:</span> {selectedEmergency.id}</p>
+                    <p><span className="text-white">Time:</span> {selectedEmergency.time}</p>
+                    <p><span className="text-white">Location:</span> {selectedEmergency.location}</p>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-3">Vital Signs</h3>
-                  <div className="space-y-2">
-                    <p className="text-white/70">
-                      <span className="text-white">Heart Rate:</span> {selectedEmergency.vitals.heartRate} BPM
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Blood Pressure:</span> {selectedEmergency.vitals.bloodPressure}
-                    </p>
-                    <p className="text-white/70">
-                      <span className="text-white">Oxygen Level:</span> {selectedEmergency.vitals.oxygen}
-                    </p>
+                  <div className="space-y-2 text-white/70">
+                    <p><span className="text-white">Heart Rate:</span> {selectedEmergency.vitals.heartRate} BPM</p>
+                    <p><span className="text-white">Blood Pressure:</span> {selectedEmergency.vitals.bloodPressure}</p>
+                    <p><span className="text-white">Oxygen Level:</span> {selectedEmergency.vitals.oxygen}</p>
                   </div>
                 </div>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Description</h3>
-                <p className="text-white/70 bg-white/5 p-4 rounded-lg">{selectedEmergency.description}</p>
+                <p className="text-white/70 bg-white/10 p-4 rounded-2xl">{selectedEmergency.description}</p>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">Location Map</h3>
-                <div className="h-48 bg-white/5 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
+                <div className="relative h-48 bg-white/10 rounded-2xl flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20"></div>
+                  <div className="relative text-center">
                     <MapPin className="w-8 h-8 text-blue-400 mx-auto mb-2" />
                     <p className="text-white/60">Interactive Map View</p>
                     <p className="text-white/40 text-sm">{selectedEmergency.location}</p>
@@ -275,15 +246,17 @@ export default function EmergenciesPage() {
             <div className="flex space-x-3 mt-6">
               <button
                 onClick={() => updateEmergencyStatus(selectedEmergency.id, "In Progress")}
-                className="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 py-2 px-4 rounded-lg transition-all"
+                className="relative flex-1 py-2 px-4 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 transition-all duration-300 group"
               >
-                Mark In Progress
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative">Mark In Progress</span>
               </button>
               <button
                 onClick={() => updateEmergencyStatus(selectedEmergency.id, "Resolved")}
-                className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-400 py-2 px-4 rounded-lg transition-all"
+                className="relative flex-1 py-2 px-4 rounded-2xl bg-green-500/20 hover:bg-green-500/30 text-green-400 transition-all duration-300 group"
               >
-                Mark Resolved
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative">Mark Resolved</span>
               </button>
             </div>
           </div>
