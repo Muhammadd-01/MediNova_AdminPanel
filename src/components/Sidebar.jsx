@@ -16,6 +16,7 @@ export default function Sidebar({ currentPage, setCurrentPage, onLogout }) {
     { id: "emergencies", label: "Emergencies", icon: AlertTriangle },
     { id: "add-hospital", label: "Add Hospital", icon: Plus },
     { id: "feedback", label: "Feedbacks", icon: Shield },
+    { id: "contact", label: "Contacts", icon: Shield }, // Added
     { id: "reports", label: "Reports", icon: BarChart3 },
     { id: "system-settings", label: "System Settings", icon: Settings },
     { id: "profile", label: "Profile", icon: User },
@@ -26,13 +27,8 @@ export default function Sidebar({ currentPage, setCurrentPage, onLogout }) {
     onLogout()
   }
 
-  const handleMenuItemClick = (itemId) => {
-    setCurrentPage(itemId)
-  }
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
+  const handleMenuItemClick = (itemId) => setCurrentPage(itemId)
+  const toggleSidebar = () => setIsOpen(!isOpen)
 
   return (
     <>

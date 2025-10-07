@@ -12,6 +12,7 @@ import AddHospitalForm from "./components/AddHospitalForm"
 import ProfilePage from "./components/ProfilePage"
 import LoginPage from "./components/LoginPage"
 import FeedbackPage from "./components/FeedbackPage"
+import ContactPage from "./components/ContactPage" // ✅ Added ContactPage import
 import SystemSettings from "./components/SystemSettings"
 import ReportsPage from "./components/ReportsPage"
 
@@ -26,53 +27,33 @@ export default function App() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024)
     }
-
     checkMobile()
     window.addEventListener("resize", checkMobile)
-
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  const handleLogin = () => {
-    setIsLoggedIn(true)
-  }
-
+  const handleLogin = () => setIsLoggedIn(true)
   const handleLogout = () => {
     setIsLoggedIn(false)
     setCurrentPage("dashboard")
     setSidebarOpen(false)
   }
-
-  const handleMenuToggle = () => {
-    setSidebarOpen(!sidebarOpen)
-  }
-
-  const handleSidebarClose = () => {
-    setSidebarOpen(false)
-  }
+  const handleMenuToggle = () => setSidebarOpen(!sidebarOpen)
+  const handleSidebarClose = () => setSidebarOpen(false)
 
   const renderCurrentPage = () => {
     switch (currentPage) {
-      case "dashboard":
-        return <Dashboard />
-      case "users":
-        return <UsersPage />
-      case "hospitals":
-        return <HospitalsPage />
-      case "emergencies":
-        return <EmergenciesPage />
-      case "add-hospital":
-        return <AddHospitalForm />
-      case "profile":
-        return <ProfilePage />
-      case "feedback":
-        return <FeedbackPage />
-      case "system-settings":
-        return <SystemSettings />
-      case "reports":
-        return <ReportsPage />
-      default:
-        return <Dashboard />
+      case "dashboard": return <Dashboard />
+      case "users": return <UsersPage />
+      case "hospitals": return <HospitalsPage />
+      case "emergencies": return <EmergenciesPage />
+      case "add-hospital": return <AddHospitalForm />
+      case "profile": return <ProfilePage />
+      case "feedback": return <FeedbackPage />
+      case "contact": return <ContactPage /> // ✅ Contact page added
+      case "system-settings": return <SystemSettings />
+      case "reports": return <ReportsPage />
+      default: return <Dashboard />
     }
   }
 
@@ -101,7 +82,9 @@ export default function App() {
         <div className="flex-1 lg:ml-64">
           <Navbar onMenuToggle={handleMenuToggle} isMobile={isMobile} />
 
-          <main className="pt-16 p-4 md:p-6 min-h-screen">{renderCurrentPage()}</main>
+          <main className="pt-16 p-4 md:p-6 min-h-screen">
+            {renderCurrentPage()}
+          </main>
         </div>
       </div>
     </div>
