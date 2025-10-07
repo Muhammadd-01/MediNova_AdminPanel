@@ -1,63 +1,78 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Search, Filter, Eye, Edit, Trash2, X, Plus } from "lucide-react"
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Filter, Eye, Edit, Trash2, X, Plus, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function UsersPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterRole, setFilterRole] = useState("all")
-  const [users, setUsers] = useState([])
-  const [selectedUser, setSelectedUser] = useState(null)
-  const [editUser, setEditUser] = useState(null)
-  const [addUserModal, setAddUserModal] = useState(false)
-  const [formData, setFormData] = useState({})
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterRole, setFilterRole] = useState("all");
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [editUser, setEditUser] = useState(null);
+  const [addUserModal, setAddUserModal] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [notification, setNotification] = useState(null); // { type: "success"|"warning", message: "" }
+  const [confirmDelete, setConfirmDelete] = useState(null); // { user }
 
   const countries = [
     "Pakistan", "India", "Bangladesh", "Sri Lanka", "Nepal", "Afghanistan",
     "Saudi Arabia", "United Arab Emirates", "Qatar", "Kuwait", "Oman",
     "Turkey", "Malaysia", "Indonesia", "Egypt", "United States", "United Kingdom",
     "Canada", "Australia", "Germany", "France", "Italy", "Spain", "China", "Japan",
-  ]
+  ];
 
-  const genders = ["Male", "Female", "Other"]
+  const genders = ["Male", "Female", "Other"];
 
   // ✅ Fetch users
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, []);
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:4001/api/users")
-      const data = await res.json()
-      setUsers(data)
+      const res = await fetch("http://localhost:4001/api/users");
+      const data = await res.json();
+      setUsers(data);
     } catch (error) {
-      console.error("Error fetching users:", error)
+      console.error("Error fetching users:", error);
     }
-  }
+  };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesSearch
-  })
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = filterRole === "all" || user.role === filterRole;
+    return matchesSearch && matchesRole;
+  });
 
-  // ✅ Delete user
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return
+  // ✅ Delete user (show confirmation notification)
+  const handleDeleteClick = (user) => {
+    if (user.role === "superadmin") {
+      setNotification({ type: "warning", message: "You cannot delete the Superadmin!" });
+      setTimeout(() => setNotification(null), 3000);
+      return;
+    }
+    setConfirmDelete(user); // show confirm notification
+  };
+
+  const handleConfirmDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:4001/api/users/${id}`, {
+      const res = await fetch(`http://localhost:4001/api/users/${confirmDelete._id}`, {
         method: "DELETE",
-      })
+      });
       if (res.ok) {
-        setUsers(users.filter((u) => u._id !== id))
+        setUsers(users.filter((u) => u._id !== confirmDelete._id));
+        setNotification({ type: "success", message: "User deleted successfully!" });
+        setTimeout(() => setNotification(null), 3000);
       }
     } catch (error) {
-      console.error("Error deleting user:", error)
+      setNotification({ type: "warning", message: "Error deleting user!" });
+      setTimeout(() => setNotification(null), 3000);
     }
-  }
+    setConfirmDelete(null);
+  };
 
   // ✅ Edit user
   const handleEditSave = async () => {
@@ -66,15 +81,17 @@ export default function UsersPage() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      })
+      });
       if (res.ok) {
-        setEditUser(null)
-        fetchUsers()
+        setEditUser(null);
+        fetchUsers();
+        setNotification({ type: "success", message: "User updated successfully!" });
+        setTimeout(() => setNotification(null), 3000);
       }
     } catch (error) {
-      console.error("Error updating user:", error)
+      console.error("Error updating user:", error);
     }
-  }
+  };
 
   // ✅ Add new user
   const handleAddUser = async () => {
@@ -83,22 +100,80 @@ export default function UsersPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      })
+      });
       if (res.ok) {
-        setAddUserModal(false)
-        setFormData({})
-        fetchUsers()
+        setAddUserModal(false);
+        setFormData({});
+        fetchUsers();
+        setNotification({ type: "success", message: "User added successfully!" });
+        setTimeout(() => setNotification(null), 3000);
       } else {
-        const err = await res.json()
-        alert(err.message || "Error adding user")
+        const err = await res.json();
+        setNotification({ type: "warning", message: err.message || "Error adding user" });
+        setTimeout(() => setNotification(null), 3000);
       }
     } catch (error) {
-      console.error("Error adding user:", error)
+      console.error("Error adding user:", error);
     }
-  }
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+
+     {/* ======================= NOTIFICATIONS ======================= */}
+<AnimatePresence>
+  {/* Success / Warning Notifications */}
+  {notification && (
+    <motion.div
+      initial={{ opacity: 0, x: 50, scale: 0.8 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: 50, scale: 0.8 }}
+      className={`fixed top-6 right-6 z-50 p-4 rounded-xl shadow-2xl w-72 backdrop-blur-lg border border-white/20 bg-white/10 text-white`}
+    >
+      <div className="flex items-center gap-2">
+        {notification.type === "success" ? (
+          <CheckCircle className="w-6 h-6 text-green-400" />
+        ) : (
+          <AlertCircle className="w-6 h-6 text-yellow-400" />
+        )}
+        <p className="text-sm font-medium">{notification.message}</p>
+        <button onClick={() => setNotification(null)} className="ml-auto">
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+    </motion.div>
+  )}
+
+  {/* Confirm Delete Notification */}
+  {confirmDelete && (
+    <motion.div
+      initial={{ opacity: 0, x: 50, scale: 0.8 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: 50, scale: 0.8 }}
+      className="fixed top-6 right-6 z-50 p-6 rounded-xl shadow-2xl w-72 backdrop-blur-lg border border-white/30 bg-white/10 text-white"
+    >
+      <p className="mb-4 text-sm">
+        Are you sure you want to delete <span className="font-semibold">{confirmDelete.fullName}</span>?
+      </p>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setConfirmDelete(null)}
+          className="px-3 py-1 bg-white/20 rounded-xl hover:bg-white/30"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleConfirmDelete}
+          className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded-xl"
+        >
+          Delete
+        </button>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white mb-2">User Management</h1>
@@ -132,7 +207,7 @@ export default function UsersPage() {
             </select>
           </div>
 
-          {/* ✅ Add User Button */}
+          {/* Add User Button */}
           <button
             onClick={() => setAddUserModal(true)}
             className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-2xl shadow-md transition-all"
@@ -178,15 +253,15 @@ export default function UsersPage() {
                 </button>
                 <button
                   onClick={() => {
-                    setEditUser(user)
-                    setFormData(user)
+                    setEditUser(user);
+                    setFormData(user);
                   }}
                   className="p-2 text-white/70 hover:text-green-400 hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95"
                 >
                   <Edit className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => handleDelete(user._id)}
+                  onClick={() => handleDeleteClick(user)}
                   className="p-2 text-white/70 hover:text-red-400 hover:bg-white/20 rounded-xl transition-all transform hover:scale-110 active:scale-95"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -199,8 +274,8 @@ export default function UsersPage() {
         )}
       </div>
 
-      {/* ======================= ADD USER MODAL ======================= */}
-   <AnimatePresence>
+        {/* ======================= ADD USER MODAL ======================= */}
+ <AnimatePresence>
   {addUserModal && (
     <motion.div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
@@ -238,6 +313,7 @@ export default function UsersPage() {
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
           />
+          {/* ✅ Password Input */}
           <input
             type="password"
             placeholder="Password"
@@ -274,7 +350,7 @@ export default function UsersPage() {
             ))}
           </select>
 
-          {/* ✅ Role (Newly Added) */}
+          {/* Role */}
           <select
             value={formData.role || ""}
             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
@@ -283,7 +359,7 @@ export default function UsersPage() {
             <option value="">Select Role</option>
             <option value="user">User</option>
             <option value="admin">Admin</option>
-            <option value="admin">Doctor</option>
+            <option value="doctor">Doctor</option>
           </select>
         </div>
 
@@ -305,6 +381,7 @@ export default function UsersPage() {
     </motion.div>
   )}
 </AnimatePresence>
+
 
       {/* ======================= VIEW MODAL ======================= */}
       <AnimatePresence>
@@ -350,77 +427,133 @@ export default function UsersPage() {
       </AnimatePresence>
 
       {/* ======================= EDIT MODAL ======================= */}
-      <AnimatePresence>
-        {editUser && (
-          <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+     <AnimatePresence>
+  {editUser && (
+    <motion.div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20 shadow-2xl text-white w-full max-w-md relative"
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.8 }}
+      >
+        <button
+          onClick={() => setEditUser(null)}
+          className="absolute top-4 right-4 text-white/70 hover:text-white"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <h2 className="text-xl font-bold mb-4">Edit User</h2>
+
+        <div className="space-y-3">
+          {/* Full Name */}
+          <input
+            type="text"
+            value={formData.fullName || ""}
+            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+            placeholder="Full Name"
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
+          />
+
+          {/* Email */}
+          <input
+            type="email"
+            value={formData.email || ""}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            placeholder="Email"
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
+          />
+
+          {/* Gender Dropdown */}
+          <select
+            value={formData.gender || ""}
+            onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
           >
-            <motion.div
-              className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20 shadow-2xl text-white w-full max-w-md relative"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-            >
-              <button
-                onClick={() => setEditUser(null)}
-                className="absolute top-4 right-4 text-white/70 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <h2 className="text-xl font-bold mb-4">Edit User</h2>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
 
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={formData.fullName || ""}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  placeholder="Full Name"
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
-                />
-                <input
-                  type="text"
-                  value={formData.country || ""}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  placeholder="Country"
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
-                />
-                <input
-                  type="text"
-                  value={formData.phoneNumber || ""}
-                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                  placeholder="Phone Number"
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
-                />
-                <input
-                  type="text"
-                  value={formData.gender || ""}
-                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                  placeholder="Gender"
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
-                />
-              </div>
+          {/* Country Dropdown */}
+          <select
+            value={formData.country || ""}
+            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
+          >
+            <option value="">Select Country</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="India">India</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="Nepal">Nepal</option>
+            <option value="Afghanistan">Afghanistan</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Oman">Oman</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Egypt">Egypt</option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <option value="Germany">Germany</option>
+            <option value="France">France</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="China">China</option>
+            <option value="Japan">Japan</option>
+          </select>
 
-              <div className="mt-6 flex justify-end gap-3">
-                <button
-                  onClick={() => setEditUser(null)}
-                  className="px-4 py-2 bg-white/20 rounded-xl hover:bg-white/30 transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleEditSave}
-                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl"
-                >
-                  Save
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Role Dropdown */}
+          <select
+            value={formData.role || ""}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
+          >
+            <option value="">Select Role</option>
+            <option value="user">User</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          {/* Phone Number */}
+          <input
+            type="text"
+            value={formData.phoneNumber || ""}
+            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+            placeholder="Phone Number"
+            className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-white"
+          />
+        </div>
+
+        <div className="mt-6 flex justify-end gap-3">
+          <button
+            onClick={() => setEditUser(null)}
+            className="px-4 py-2 bg-white/20 rounded-xl hover:bg-white/30 transition"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleEditSave}
+            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl"
+          >
+            Save
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </div>
-  )
+  );
 }

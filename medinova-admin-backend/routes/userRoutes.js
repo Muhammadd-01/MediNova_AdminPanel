@@ -100,18 +100,21 @@ router.put("/:id", async (req, res) => {
 ========================= */
 router.delete("/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    const deletedUser = await User.findByIdAndDelete(id);
-
-    if (!deletedUser) {
-      return res.status(404).json({ message: "User not found" });
+    // Prevent deleting superadmin
+    if (user.email === process.env.ADMIN_EMAIL) {
+      return res.status(403).json({ message: "You cannot delete the Superadmin!" });
     }
 
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Error deleting user", error: error.message });
+    await user.deleteOne();
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
 
 export default router;
