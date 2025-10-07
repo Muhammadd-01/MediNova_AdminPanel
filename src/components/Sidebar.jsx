@@ -1,7 +1,7 @@
 "use client"
 
 import { 
-  Home, Users, Building2, AlertTriangle, Plus, User, LogOut, Activity, Settings, Shield, BarChart3, X, Menu 
+  Home, Users, Building2, AlertTriangle, Plus, User, LogOut, Activity, Settings, Shield, BarChart3, X, Menu, Mail, MessageSquare 
 } from "lucide-react"
 import { useState } from "react"
 
@@ -15,8 +15,8 @@ export default function Sidebar({ currentPage, setCurrentPage, onLogout }) {
     { id: "hospitals", label: "Hospitals", icon: Building2 },
     { id: "emergencies", label: "Emergencies", icon: AlertTriangle },
     { id: "add-hospital", label: "Add Hospital", icon: Plus },
-    { id: "feedback", label: "Feedbacks", icon: Shield },
-    { id: "contact", label: "Contacts", icon: Shield }, // Added
+    { id: "feedback", label: "Feedbacks", icon: MessageSquare }, // Changed icon
+    { id: "contact", label: "Contacts", icon: Mail }, // Changed icon
     { id: "reports", label: "Reports", icon: BarChart3 },
     { id: "system-settings", label: "System Settings", icon: Settings },
     { id: "profile", label: "Profile", icon: User },
