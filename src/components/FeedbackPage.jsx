@@ -1,19 +1,22 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Eye, Mail } from "lucide-react"
+import { Search, Trash2, CheckCircle, AlertCircle, X } from "lucide-react"
 import axios from "axios"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function FeedbackPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [feedbacks, setFeedbacks] = useState([])
   const [loading, setLoading] = useState(true)
+  const [notification, setNotification] = useState(null)
+  const [confirmDelete, setConfirmDelete] = useState(null)
 
   // Fetch feedbacks from backend
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/api/feedbacks") // backend port of admin panel
+        const res = await axios.get("http://localhost:4001/api/feedbacks")
         setFeedbacks(res.data)
         setLoading(false)
       } catch (err) {
@@ -24,6 +27,26 @@ export default function FeedbackPage() {
     fetchFeedbacks()
   }, [])
 
+  // Open delete confirmation modal
+  const openDeleteConfirm = (fb) => {
+    setConfirmDelete(fb)
+  }
+
+  // Handle confirm delete
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:4001/api/feedbacks/${confirmDelete._id}`)
+      setFeedbacks(feedbacks.filter((fb) => fb._id !== confirmDelete._id))
+      setNotification({ type: "success", message: "Feedback deleted successfully!" })
+    } catch (err) {
+      console.error(err)
+      setNotification({ type: "error", message: "Failed to delete feedback." })
+    } finally {
+      setConfirmDelete(null)
+      setTimeout(() => setNotification(null), 3000)
+    }
+  }
+
   // Filter feedbacks by search term
   const filteredFeedbacks = feedbacks.filter(
     (fb) =>
@@ -33,7 +56,60 @@ export default function FeedbackPage() {
   )
 
   return (
-    <div className="space-y-6 mt-16 md:mt-20">
+    <div className="space-y-6 mt-16 md:mt-20 relative">
+      {/* ======================= NOTIFICATIONS ======================= */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, x: 50, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 50, scale: 0.8 }}
+            className="fixed top-6 right-6 z-50 p-4 rounded-xl shadow-2xl w-72 backdrop-blur-lg border border-white/20 bg-white/10 text-white"
+          >
+            <div className="flex items-center gap-2">
+              {notification.type === "success" ? (
+                <CheckCircle className="w-6 h-6 text-green-400" />
+              ) : (
+                <AlertCircle className="w-6 h-6 text-yellow-400" />
+              )}
+              <p className="text-sm font-medium">{notification.message}</p>
+              <button onClick={() => setNotification(null)} className="ml-auto">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ======================= CONFIRM DELETE ======================= */}
+        {confirmDelete && (
+          <motion.div
+            initial={{ opacity: 0, x: 50, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 50, scale: 0.8 }}
+            className="fixed top-6 right-6 z-50 p-6 rounded-xl shadow-2xl w-80 backdrop-blur-lg border border-white/30 bg-white/10 text-white"
+          >
+            <p className="mb-4 text-sm">
+              Are you sure you want to delete this feedback from{" "}
+              <span className="font-semibold">{confirmDelete.user?.name || "Anonymous"}</span>?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-3 py-1 bg-white/20 rounded-xl hover:bg-white/30"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded-xl"
+              >
+                Delete
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <div className="relative bg-gradient-to-r from-white/10 to-white/20 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -113,9 +189,12 @@ export default function FeedbackPage() {
                     <td className="py-4 px-6 text-white/70">{fb.user?.name || "Anonymous"}</td>
                     <td className="py-4 px-6 text-white/70">{fb.user?.email || "-"}</td>
                     <td className="py-4 px-6 text-white/60">{new Date(fb.createdAt).toLocaleString()}</td>
-                    <td className="py-4 px-6">
-                      <button className="p-2 text-white/70 hover:text-blue-400 hover:bg-white/10 rounded-2xl transition-all duration-300">
-                        <Eye className="w-4 h-4" />
+                    <td className="py-4 px-6 flex space-x-2">
+                      <button
+                        onClick={() => openDeleteConfirm(fb)}
+                        className="p-2 text-white/70 hover:text-red-400 hover:bg-white/10 rounded-2xl transition-all duration-300"
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </td>
                   </tr>
