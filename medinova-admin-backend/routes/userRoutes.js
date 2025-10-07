@@ -1,13 +1,31 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 const router = express.Router();
 
-/* =========================
-   🔹 GET All Users
-========================= */
-router.get("/", async (req, res) => {
+/* ====================================
+   🔒 Middleware: Verify Token & Role
+==================================== */
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "Access denied. No token provided." });
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // contains email, role, etc.
+    next();
+  } catch (err) {
+    return res.status(400).json({ message: "Invalid token." });
+  }
+};
+
+/* ====================================
+   🔹 GET All Users (Admin Only)
+==================================== */
+router.get("/", verifyToken, async (req, res) => {
   try {
     const users = await User.find().sort({ createdAt: -1 });
     res.status(200).json(users);
@@ -16,10 +34,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* =========================
+/* ====================================
    🔹 ADD New User (Admin Only)
-========================= */
-router.post("/", async (req, res) => {
+==================================== */
+router.post("/", verifyToken, async (req, res) => {
   try {
     const {
       fullName,
@@ -49,7 +67,7 @@ router.post("/", async (req, res) => {
     const newUser = new User({
       fullName,
       email,
-      password: hashedPassword, // store hashed password
+      password: hashedPassword,
       phoneNumber,
       gender,
       country,
@@ -63,25 +81,20 @@ router.post("/", async (req, res) => {
     });
 
     await newUser.save();
-
-    res.status(201).json({
-      message: "User created successfully",
-      user: newUser,
-    });
+    res.status(201).json({ message: "User created successfully", user: newUser });
   } catch (error) {
     res.status(500).json({ message: "Error creating user", error: error.message });
   }
 });
 
-/* =========================
+/* ====================================
    🔹 UPDATE User by ID
-========================= */
-router.put("/:id", async (req, res) => {
+==================================== */
+router.put("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = { ...req.body };
 
-    // ✅ If password is being updated, hash it again
     if (updateData.password) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
@@ -96,29 +109,50 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({
-      message: "User updated successfully",
-      user: updatedUser,
-    });
+    res.status(200).json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     res.status(500).json({ message: "Error updating user", error: error.message });
   }
 });
 
-/* =========================
-   🔹 DELETE User by ID
-========================= */
-router.delete("/:id", async (req, res) => {
+/* ====================================
+   🔹 DELETE User by ID (Role Protected)
+==================================== */
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const { id } = req.params;
 
-    // 🚫 Prevent deleting superadmin
-    if (user.email === process.env.ADMIN_EMAIL) {
+    // ✅ Find target user to be deleted
+    const targetUser = await User.findById(id);
+    if (!targetUser) return res.status(404).json({ message: "User not found" });
+
+    // ✅ Identify the requester
+    const requesterEmail = req.user.email;
+    const requesterRole = req.user.role;
+
+    // 🚫 Prevent deleting Superadmin account
+    if (targetUser.email === process.env.ADMIN_EMAIL) {
       return res.status(403).json({ message: "You cannot delete the Superadmin!" });
     }
 
-    await user.deleteOne();
+    // ✅ If requester is admin (not superadmin)
+    if (requesterRole === "admin") {
+      if (targetUser.role === "admin") {
+        return res.status(403).json({ message: "Admins cannot delete other admins!" });
+      }
+    }
+
+    // ✅ If requester is user — deny
+    if (requesterRole === "user") {
+      return res.status(403).json({ message: "You are not authorized to delete anyone!" });
+    }
+
+    // ✅ If requester is superadmin — allow all deletions except self
+    if (requesterRole === "superadmin" && requesterEmail === targetUser.email) {
+      return res.status(403).json({ message: "Superadmin cannot delete their own account!" });
+    }
+
+    await targetUser.deleteOne();
     res.json({ message: "User deleted successfully" });
   } catch (err) {
     console.error(err);
