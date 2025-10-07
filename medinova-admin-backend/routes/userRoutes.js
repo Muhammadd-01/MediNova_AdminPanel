@@ -1,4 +1,5 @@
 import express from "express";
+import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
 const router = express.Router();
@@ -33,19 +34,22 @@ router.post("/", async (req, res) => {
       medications,
       history,
       profilePic,
-      role, // ✅ new field
+      role,
     } = req.body;
 
-    // Optional: prevent duplicate users
+    // 🔍 Prevent duplicate users
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User with this email already exists" });
     }
 
+    // ✅ Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({
       fullName,
       email,
-      password,
+      password: hashedPassword, // store hashed password
       phoneNumber,
       gender,
       country,
@@ -55,7 +59,7 @@ router.post("/", async (req, res) => {
       medications,
       history,
       profilePic,
-      role: role || "user", // default if not provided
+      role: role || "user",
     });
 
     await newUser.save();
@@ -75,10 +79,16 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const updateData = { ...req.body };
+
+    // ✅ If password is being updated, hash it again
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $set: req.body },
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
@@ -103,7 +113,7 @@ router.delete("/:id", async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Prevent deleting superadmin
+    // 🚫 Prevent deleting superadmin
     if (user.email === process.env.ADMIN_EMAIL) {
       return res.status(403).json({ message: "You cannot delete the Superadmin!" });
     }
@@ -115,6 +125,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
 
 export default router;
