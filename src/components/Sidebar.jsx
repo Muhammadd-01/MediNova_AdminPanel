@@ -15,7 +15,7 @@ export default function Sidebar({ currentPage, setCurrentPage, onLogout }) {
     { id: "hospitals", label: "Hospitals", icon: Building2 },
     { id: "emergencies", label: "Emergencies", icon: AlertTriangle },
     { id: "add-hospital", label: "Add Hospital", icon: Plus },
-    { id: "admin-management", label: "Admin Management", icon: Shield },
+    { id: "feedback", label: "Feedbacks", icon: Shield },
     { id: "reports", label: "Reports", icon: BarChart3 },
     { id: "system-settings", label: "System Settings", icon: Settings },
     { id: "profile", label: "Profile", icon: User },

@@ -11,7 +11,7 @@ import EmergenciesPage from "./components/EmergenciesPage"
 import AddHospitalForm from "./components/AddHospitalForm"
 import ProfilePage from "./components/ProfilePage"
 import LoginPage from "./components/LoginPage"
-import AdminManagement from "./components/AdminManagement"
+import FeedbackPage from "./components/FeedbackPage"
 import SystemSettings from "./components/SystemSettings"
 import ReportsPage from "./components/ReportsPage"
 
@@ -65,8 +65,8 @@ export default function App() {
         return <AddHospitalForm />
       case "profile":
         return <ProfilePage />
-      case "admin-management":
-        return <AdminManagement />
+      case "feedback":
+        return <FeedbackPage />
       case "system-settings":
         return <SystemSettings />
       case "reports":

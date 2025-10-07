@@ -9,6 +9,7 @@ import User from "./models/User.js";
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 
 
 
@@ -50,6 +51,7 @@ app.get("/", (req, res) => {
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/feedbacks", feedbackRoutes);
 
 
 
